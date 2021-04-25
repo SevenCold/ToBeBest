@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class CommentLevelCountsVO {
 
-    public Integer totalCounts;
-    public Integer goodCounts;
-    public Integer normalCounts;
-    public Integer badCounts;
+    public Integer totalCounts = 0;
+    public Integer goodCounts = 0;
+    public Integer normalCounts = 0;
+    public Integer badCounts = 0;
 }

@@ -1,6 +1,5 @@
 package com.kang.controller;
 
-import com.kang.common.annotation.RequiredParam;
 import com.kang.common.utils.R;
 import com.kang.pojo.CarouselEntity;
 import com.kang.pojo.CategoryEntity;
@@ -66,7 +65,7 @@ public class IndexController {
     @RequestMapping("/subCat/{fatherId}")
     public R subCat(
             @ApiParam(value = "父分类id", name = "fatherId", required = true, example = "1")
-            @RequiredParam @PathVariable Integer fatherId) {
+            @PathVariable Integer fatherId) {
         return R.ok(categoryService.getSubCatByFatherId(fatherId));
     }
 
@@ -74,7 +73,7 @@ public class IndexController {
     @GetMapping("/sixNewItems/{rootCatId}")
     public R sixNewItems(
             @ApiParam(name = "rootCatId", value = "一级分类id", required = true)
-            @RequiredParam @PathVariable Integer rootCatId) {
+            @PathVariable Integer rootCatId) {
         return R.ok(categoryService.getSixNewItemsLazy(rootCatId));
     }
 

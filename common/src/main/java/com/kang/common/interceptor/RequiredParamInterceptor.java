@@ -1,10 +1,11 @@
 package com.kang.common.interceptor;
 
-import com.kang.common.annotation.RequiredParam;
+import com.kang.common.annotation.RequestParamRequired;
 import com.kang.common.enums.ErrorMsgEnum;
 import com.kang.common.exception.KangException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -42,8 +43,10 @@ public class RequiredParamInterceptor extends HandlerInterceptorAdapter {
         Parameter[] parameters = handlerMethod.getMethod().getParameters();
         List<String> list = new ArrayList<>();
         for (Parameter parameter : parameters) {
-            RequiredParam requiredParam = parameter.getAnnotation(RequiredParam.class);
-            if(requiredParam != null && requiredParam.value()){
+            // 同时有@RequiredParam @RequestParam注解
+            RequestParamRequired requiredParam = parameter.getAnnotation(RequestParamRequired.class);
+            RequestParam requestParam = parameter.getAnnotation(RequestParam.class);
+            if(requestParam != null && requiredParam != null && requiredParam.value()){
                 list.add(parameter.getName());
             }
         }

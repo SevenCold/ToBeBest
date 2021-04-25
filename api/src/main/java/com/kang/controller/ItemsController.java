@@ -2,7 +2,8 @@ package com.kang.controller;
 
 import com.kang.VO.CommentLevelCountsVO;
 import com.kang.VO.ItemInfoVO;
-import com.kang.common.annotation.RequiredParam;
+import com.kang.common.annotation.RequestParamRequired;
+import com.kang.common.utils.PageUtils;
 import com.kang.common.utils.R;
 import com.kang.pojo.ItemsEntity;
 import com.kang.pojo.ItemsImgEntity;
@@ -15,7 +16,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -54,7 +57,7 @@ public class ItemsController {
     @GetMapping("/info/{itemId}")
     public R sixNewItems(
             @ApiParam(name = "itemId", value = "商品id", required = true)
-            @RequiredParam @PathVariable String itemId) {
+            @PathVariable String itemId) {
         ItemInfoVO itemInfoVO = new ItemInfoVO();
         ItemsEntity itemsEntity = itemsService.lambdaQuery().eq(ItemsEntity::getId, itemId).one();
         itemInfoVO.setItem(itemsEntity);
@@ -76,9 +79,33 @@ public class ItemsController {
     @GetMapping("/commentLevel")
     public R commentLevel(
             @ApiParam(name = "itemId", value = "商品id", required = true)
-            @RequiredParam @RequestParam String itemId) {
+            @RequestParamRequired @RequestParam String itemId) {
         CommentLevelCountsVO res = itemsCommentsService.getCommentCntByItemId(itemId);
         return R.ok(res);
+    }
+
+    /**
+     * 查询商品评论数量
+     * @param itemId 商品id
+     * @return 商品详情
+     */
+    @ApiOperation(value = "查询商品评论", notes = "根据商品id查询商品评论", httpMethod = "GET")
+    @GetMapping("/comments")
+    public R comments(
+            @ApiParam(name = "itemId", value = "商品id", required = true)
+            @RequestParamRequired @RequestParam String itemId,
+            @ApiParam(name = "level", value = "评论等级")
+            @RequestParam(required = false) Integer level,
+            @ApiParam(name = "page", value = "页码")
+            @RequestParam(required = false) String page,
+            @ApiParam(name = "pageSize", value = "每页评论数量")
+            @RequestParam(required = false) String pageSize) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("itemId", itemId);
+        queryMap.put("level", level);
+        queryMap.put("page", page);
+        queryMap.put("pageSize", pageSize);
+        return R.ok(itemsCommentsService.queryItemComments(queryMap));
     }
 
 }

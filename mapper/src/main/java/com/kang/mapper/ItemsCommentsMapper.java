@@ -1,10 +1,15 @@
 package com.kang.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kang.VO.ItemCommentVO;
 import com.kang.pojo.ItemsCommentsEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品评价表 
@@ -22,4 +27,12 @@ public interface ItemsCommentsMapper extends BaseMapper<ItemsCommentsEntity> {
      * @return 好评、中评、差评的个数
      */
     List<ItemsCommentsEntity> getCommentCntByItemId(String itemId);
+
+    /**
+     * 根据商品id查询商品评论
+     * @param map map.itemId 商品id
+     *            map.level 商品评论等级 （可能为空）
+     * @return 商品评论信息
+     */
+    List<ItemCommentVO> queryItemComments(IPage page, @Param("paramsMap") Map<String, Object> map);
 }

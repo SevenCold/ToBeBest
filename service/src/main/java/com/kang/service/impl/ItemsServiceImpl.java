@@ -17,11 +17,12 @@ import com.kang.service.ItemsService;
 public class ItemsServiceImpl extends ServiceImpl<ItemsMapper, ItemsEntity> implements ItemsService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
+    public PageUtils queryItemComments(Map<String, Object> params) {
         IPage<ItemsEntity> page = this.page(
                 new Query<ItemsEntity>().getPage(params),
                 new QueryWrapper<ItemsEntity>()
         );
+
 
         return new PageUtils(page);
     }

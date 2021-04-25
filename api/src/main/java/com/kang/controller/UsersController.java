@@ -2,7 +2,7 @@ package com.kang.controller;
 
 import com.kang.BO.UserBO;
 import com.kang.VO.UserVO;
-import com.kang.common.annotation.RequiredParam;
+import com.kang.common.annotation.RequestParamRequired;
 import com.kang.common.enums.ErrorMsgEnum;
 import com.kang.common.utils.CookieUtils;
 import com.kang.common.utils.JsonUtils;
@@ -64,7 +64,7 @@ public class UsersController {
      */
     @ApiOperation(value = "根据用户名判断用户是否存在", httpMethod = "GET", notes = "根据用户名判断用户是否存在")
     @GetMapping("/usernameIsExist")
-    public R queryUserNameExist(@RequiredParam @RequestParam String username) {
+    public R queryUserNameExist(@RequestParamRequired @RequestParam String username) {
         boolean exist = usersService.queryUserNameExist(username);
         if (exist) {
             return ErrorMsgEnum.USER_EXIST.getR();
@@ -97,7 +97,7 @@ public class UsersController {
      */
     @ApiOperation(value = "用户登出", httpMethod = "GET", notes = "根据用户id退出登录")
     @PostMapping("/logout")
-    public R logout(@RequiredParam@RequestParam String userId, HttpServletRequest request, HttpServletResponse response) {
+    public R logout(@RequestParamRequired @RequestParam String userId, HttpServletRequest request, HttpServletResponse response) {
         CookieUtils.deleteCookie(request, response, "user");
         return R.ok();
     }

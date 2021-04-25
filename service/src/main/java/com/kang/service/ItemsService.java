@@ -15,6 +15,6 @@ import java.util.Map;
  */
 public interface ItemsService extends IService<ItemsEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryItemComments(Map<String, Object> params);
 }
 

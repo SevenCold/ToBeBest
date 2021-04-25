@@ -16,7 +16,12 @@ import java.util.Map;
  */
 public interface ItemsCommentsService extends IService<ItemsCommentsEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 根据商品id分页查询商品评论
+     * @param params
+     * @return 商品评论信息
+     */
+    PageUtils queryItemComments(Map<String, Object> params);
 
     /**
      * 通过商品id分组查询评价个数

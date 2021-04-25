@@ -2,9 +2,12 @@ package com.kang.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kang.VO.CommentLevelCountsVO;
+import com.kang.VO.ItemCommentVO;
 import com.kang.common.enums.CommentLevelEnum;
+import com.kang.common.utils.DesensitizationUtil;
 import com.kang.common.utils.PageUtils;
 import com.kang.common.utils.Query;
 import com.kang.mapper.ItemsCommentsMapper;
@@ -21,12 +24,13 @@ import java.util.Map;
 public class ItemsCommentsServiceImpl extends ServiceImpl<ItemsCommentsMapper, ItemsCommentsEntity> implements ItemsCommentsService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<ItemsCommentsEntity> page = this.page(
-                new Query<ItemsCommentsEntity>().getPage(params),
-                new QueryWrapper<ItemsCommentsEntity>()
-        );
-
+    public PageUtils queryItemComments(Map<String, Object> params) {
+        IPage<ItemCommentVO> page = new Query<ItemCommentVO>().getPage(params);
+        List<ItemCommentVO> itemCommentVOS = this.baseMapper.queryItemComments(page, params);
+        if (!CollectionUtils.isEmpty(itemCommentVOS)) {
+            itemCommentVOS.forEach(e -> e.setNickname(DesensitizationUtil.commonDisplay(e.getNickname())));
+        }
+        page.setRecords(itemCommentVOS);
         return new PageUtils(page);
     }
 
