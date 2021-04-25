@@ -9,7 +9,7 @@ public class KangException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
     private String msg;
-    private int code = 500;
+    private int status = 500;
     
     public KangException(String msg) {
 		super(msg);
@@ -21,16 +21,16 @@ public class KangException extends RuntimeException {
 		this.msg = msg;
 	}
 	
-	public KangException(String msg, int code) {
+	public KangException(String msg, int status) {
 		super(msg);
 		this.msg = msg;
-		this.code = code;
+		this.status = status;
 	}
 	
-	public KangException(String msg, int code, Throwable e) {
+	public KangException(String msg, int status, Throwable e) {
 		super(msg, e);
 		this.msg = msg;
-		this.code = code;
+		this.status = status;
 	}
 
 	public String getMsg() {
@@ -41,12 +41,12 @@ public class KangException extends RuntimeException {
 		this.msg = msg;
 	}
 
-	public int getCode() {
-		return code;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

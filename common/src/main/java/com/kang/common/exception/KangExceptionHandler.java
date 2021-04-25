@@ -1,5 +1,6 @@
 package com.kang.common.exception;
 
+import com.kang.common.enums.ErrorMsgEnum;
 import com.kang.common.utils.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,28 +23,25 @@ public class KangExceptionHandler {
 	 */
 	@ExceptionHandler(KangException.class)
 	public R handleRRException(KangException e){
-		R r = new R();
-		r.put("code", e.getCode());
-		r.put("msg", e.getMessage());
-
-		return r;
+		logger.error(e.getMessage(), e);
+		return new R(e.getStatus(), e.getMsg());
 	}
 
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public R handlerNoFoundException(Exception e) {
 		logger.error(e.getMessage(), e);
-		return R.error(404, "路径不存在，请检查路径是否正确");
+		return ErrorMsgEnum.NOT_FOUND.getR();
 	}
 
 	@ExceptionHandler(DuplicateKeyException.class)
 	public R handleDuplicateKeyException(DuplicateKeyException e){
 		logger.error(e.getMessage(), e);
-		return R.error("数据库中已存在该记录");
+		return ErrorMsgEnum.DUP_KEY.getR();
 	}
 
 	@ExceptionHandler(Exception.class)
 	public R handleException(Exception e){
 		logger.error(e.getMessage(), e);
-		return R.error();
+		return R.error(e.getMessage());
 	}
 }

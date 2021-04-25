@@ -1,10 +1,11 @@
 package com.kang.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kang.common.utils.PageUtils;
+import com.kang.VO.CategoryVO;
+import com.kang.VO.NewItemsVO;
 import com.kang.pojo.CategoryEntity;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 商品分类 
@@ -15,6 +16,18 @@ import java.util.Map;
  */
 public interface CategoryService extends IService<CategoryEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 根据一级分类id查询子分类信息
+     * @param fatherId 一级分类id
+     * @return 子分类信息
+     */
+    List<CategoryVO> getSubCatByFatherId(Integer fatherId);
+
+    /**
+     * 查询首页一级分类下的6条最新商品数据
+     * @param fatherId 一级分类id
+     * @return 商品数据
+     */
+    public List<NewItemsVO> getSixNewItemsLazy(Integer fatherId);
 }
 

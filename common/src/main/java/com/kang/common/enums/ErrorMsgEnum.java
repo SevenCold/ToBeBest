@@ -21,10 +21,7 @@ public enum ErrorMsgEnum {
     FORBIDDEN(HttpStatus.HTTP_FORBIDDEN, "无权访问"),
 
     // -----------登陆失败 统一为401状态码，便于前端处理 START --------------------
-    UNAUTHORIZED(HttpStatus.HTTP_UNAUTHORIZED, "需要登陆，请前去登陆！"),
-    TOKEN_INVALID(HttpStatus.HTTP_UNAUTHORIZED, "登陆状态已失效，请重新登录！"),
-    KICKED_OFF(HttpStatus.HTTP_UNAUTHORIZED, "其它设备登陆您的账号，您已被踢下线！"),
-    ACCOUNT_DIS(HttpStatus.HTTP_UNAUTHORIZED, "账号已被禁用,请联系管理员！"),
+
     // --------------登陆失败 END ------------------------------
 
     NOT_FOUND(HttpStatus.HTTP_NOT_FOUND, "路径不存在，请检查路径是否正确"),
@@ -32,23 +29,15 @@ public enum ErrorMsgEnum {
 
     // ---------------业务 状态码 START------------------------
     // ---------------系统相关---------------------------------
-    ERROR_APK(40101, "安装包文件格式错误"),
-    NOT_PERMITTED(40102, "没有权限，请联系管理员授权"),
-    SYSTEM_MENU_DELETE(40103, "系统菜单，不能删除"),
-    FATHER_MENU_DELETE(40104, "请先删除子菜单或按钮"),
-    FILE_EMPTY(40105, "上传文件不能为空"),
-    ERROR_JPG(40106, "图片文件格式错误"),
-    ERROR_FILE(40107, "图片文件格式错误"),
-    FILE_UPLOAD_ERROR(40108, "文件上传失败"),
-    TIME_PATTERN_ERROR(40109, "时间格式错误"),
+    ERROR_PARAM(500, "参数错误"),
     //----------------用户和账号相关---------------------------
-    NOT_SAME_PWD(50101,"密码两次确认不一致"),
-    USER_NOT_EXIST(50102,"用户未注册"),
-    USER_EXIST(50103,"用户已注册"),
-    EMPTY_NAME(50104,"用户名不能为空"),
-    ERROR_LOGIN(50104,"用户名或密码错误"),
+    NOT_SAME_PWD(500,"密码两次确认不一致"),
+    USER_NOT_EXIST(500,"用户未注册"),
+    USER_EXIST(500,"用户已注册"),
+    EMPTY_NAME(500,"用户名不能为空"),
+    ERROR_LOGIN(500,"用户名或密码错误"),
     // ---------------数据库相关-----------------------------
-    DPL_KEY(60100, "数据库中已存在该记录")
+    DUP_KEY(60100, "数据库中已存在该记录")
     // ---------------业务 状态码 END------------------------
     ;
 

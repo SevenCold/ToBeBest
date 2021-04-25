@@ -1,31 +1,25 @@
 package com.kang.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import com.kang.BO.UserBO;
 import com.kang.VO.UserVO;
+import com.kang.common.annotation.RequiredParam;
 import com.kang.common.enums.ErrorMsgEnum;
 import com.kang.common.utils.CookieUtils;
 import com.kang.common.utils.JsonUtils;
+import com.kang.common.utils.R;
 import com.kang.common.validator.ValidatorUtils;
 import com.kang.common.validator.group.LoginGroup;
 import com.kang.common.validator.group.RegistGroup;
+import com.kang.pojo.UsersEntity;
+import com.kang.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.kang.pojo.UsersEntity;
-import com.kang.service.UsersService;
-import com.kang.common.utils.PageUtils;
-import com.kang.common.utils.R;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /**
  * 用户表 
@@ -36,61 +30,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Api(value = "用户和账号管理", tags = "用户和账号管理相关接口")
 @RestController
-@RequestMapping("user")
+@RequestMapping("passport")
 public class UsersController {
+
     @Autowired
     private UsersService usersService;
-
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = usersService.queryPage(params);
-
-        return R.ok().put("page", page);
-    }
-
-
-    /**
-     * 信息
-     */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") String id){
-		UsersEntity users = usersService.getById(id);
-
-        return R.ok().put("users", users);
-    }
-
-    /**
-     * 保存
-     */
-    @RequestMapping("/save")
-    public R save(@RequestBody UsersEntity users){
-		usersService.save(users);
-
-        return R.ok();
-    }
-
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    public R update(@RequestBody UsersEntity users){
-		usersService.updateById(users);
-
-        return R.ok();
-    }
-
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody String[] ids){
-		usersService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
-    }
 
     /**
      * 用户注册
@@ -98,7 +42,7 @@ public class UsersController {
      * @return
      */
     @ApiOperation(value = "用户注册", httpMethod = "POST", notes = "用户注册接口，包括用户名，密码和确认密码信息")
-    @PostMapping("register")
+    @PostMapping("regist")
     public R register(@RequestBody UserBO userBO, HttpServletRequest request, HttpServletResponse response) {
         ValidatorUtils.validateEntity(userBO, RegistGroup.class);
         if (!userBO.getPassword().equals(userBO.getConfirmPassword())) {
@@ -119,11 +63,8 @@ public class UsersController {
      * @return
      */
     @ApiOperation(value = "根据用户名判断用户是否存在", httpMethod = "GET", notes = "根据用户名判断用户是否存在")
-    @GetMapping("/isExist")
-    public R queryUserNameExist(@RequestParam String username) {
-        if (StringUtils.isBlank(username)) {
-            return ErrorMsgEnum.EMPTY_NAME.getR();
-        }
+    @GetMapping("/usernameIsExist")
+    public R queryUserNameExist(@RequiredParam @RequestParam String username) {
         boolean exist = usersService.queryUserNameExist(username);
         if (exist) {
             return ErrorMsgEnum.USER_EXIST.getR();
@@ -135,7 +76,7 @@ public class UsersController {
     /**
      * 用户登录
      * @param userBO 注册信息
-     * @return
+     * @return 登录成功的用户信息
      */
     @ApiOperation(value = "用户登录", httpMethod = "POST", notes = "用户登录，包括用户名，密码信息")
     @PostMapping("login")
@@ -147,6 +88,18 @@ public class UsersController {
         }
         setCookie(usersEntity, request, response);
         return R.ok(usersEntity);
+    }
+
+    /**
+     * 根据用户id退出登录
+     * @param userId 用户ID
+     * @return 退出登录成功信息
+     */
+    @ApiOperation(value = "用户登出", httpMethod = "GET", notes = "根据用户id退出登录")
+    @PostMapping("/logout")
+    public R logout(@RequiredParam@RequestParam String userId, HttpServletRequest request, HttpServletResponse response) {
+        CookieUtils.deleteCookie(request, response, "user");
+        return R.ok();
     }
 
     /**

@@ -3,17 +3,74 @@
 
 <mapper namespace="com.kang.mapper.CategoryMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.kang.pojo.CategoryEntity" id="categoryMap">
+    <resultMap type="com.kang.VO.CategoryVO" id="categoryMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="type" column="type"/>
-        <result property="fatherId" column="father_id"/>
-        <result property="logo" column="logo"/>
-        <result property="slogan" column="slogan"/>
-        <result property="catImage" column="cat_image"/>
-        <result property="bgColor" column="bg_color"/>
+        <result property="fatherId" column="fatherId"/>
+        <collection property="subCatList" ofType="com.kang.VO.SubCategoryVO">
+            <result property="subId" column="subId"/>
+            <result property="subName" column="subName"/>
+            <result property="subType" column="subType"/>
+            <result property="subFatherId" column="subFatherId"/>
+        </collection>
     </resultMap>
 
+    <resultMap id="newItemsMap" type="com.kang.VO.NewItemsVO">
+        <id column="rootCatId" property="rootCatId"/>
+        <result column="rootCatName" property="rootCatName"/>
+        <result column="slogan" property="slogan"/>
+        <result column="catImage" property="catImage"/>
+        <result column="bgColor" property="bgColor"/>
+
+        <collection property="simpleItemList" ofType="com.kang.VO.SimpleItemVO">
+            <id column="itemId" property="itemId"/>
+            <result column="itemName" property="itemName"/>
+            <result column="itemUrl" property="itemUrl"/>
+        </collection>
+    </resultMap>
+
+    <select id="getSubCatByFatherId" resultMap="categoryMap" parameterType="int">
+    SELECT
+        f.id id,
+        f.`name` `name`,
+        f.type type,
+        f.father_id fatherId,
+        c.id subId,
+        c.`name` subName,
+        c.type subType,
+        c.father_id subFatherId
+    from category f
+    LEFT JOIN category c
+    on f.id = c.father_id
+    where f.father_id = #{fatherId}
+    </select>
+
+    <select id="getSixNewItemsLazy" resultMap="newItemsMap" parameterType="int">
+        SELECT
+            f.id as rootCatId,
+            f.`name` as rootCatName,
+            f.slogan as slogan,
+            f.cat_image as catImage,
+            f.bg_color as bgColor,
+            i.id as itemId,
+            i.item_name as itemName,
+            ii.url as itemUrl,
+            i.created_time as createdTime
+        FROM
+            category f
+        LEFT JOIN items i ON f.id = i.root_cat_id
+        LEFT JOIN items_img ii ON i.id = ii.item_id
+        WHERE
+            f.type = 1
+        AND
+            i.root_cat_id = #{fatherId}
+        AND
+            ii.is_main = 1
+        ORDER BY
+            i.created_time
+        DESC
+        LIMIT 0,6
+    </select>
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.kang.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kang.VO.CommentLevelCountsVO;
 import com.kang.common.utils.PageUtils;
 import com.kang.pojo.ItemsCommentsEntity;
 
@@ -16,5 +17,12 @@ import java.util.Map;
 public interface ItemsCommentsService extends IService<ItemsCommentsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 通过商品id分组查询评价个数
+     * @param itemId 商品id
+     * @return 评价个数信息
+     */
+    CommentLevelCountsVO getCommentCntByItemId(String itemId);
 }
 

@@ -17,5 +17,8 @@
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
 
+    <select id="getCommentCntByItemId" parameterType="string" resultMap="itemsCommentsMap">
+        select count(id) id, comment_level from items_comments WHERE item_id = #{itemId} GROUP BY comment_level
+    </select>
 
 </mapper>

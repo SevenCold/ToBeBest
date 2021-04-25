@@ -4,7 +4,6 @@ package com.kang.common.utils;
 import cn.hutool.http.HttpStatus;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 返回数据
@@ -13,10 +12,21 @@ import java.util.Map;
  */
 public class R extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
+
+	private static final String MSG_KEY = "msg";
+
+	private static final String DATA_KEY = "data";
+
+	private static final String STATUS_KEY = "status";
 	
 	public R() {
-		put("status", 200);
-		put("msg", "success");
+		put(STATUS_KEY, 200);
+		put(MSG_KEY, "OK");
+	}
+
+	public R(int status, String msg) {
+		put(STATUS_KEY, status);
+		put(MSG_KEY, msg);
 	}
 	
 	public static R error() {
@@ -28,22 +38,7 @@ public class R extends HashMap<String, Object> {
 	}
 	
 	public static R error(int status, String msg) {
-		R r = new R();
-		r.put("status", status);
-		r.put("msg", msg);
-		return r;
-	}
-
-	public static R ok(String msg) {
-		R r = new R();
-		r.put("msg", msg);
-		return r;
-	}
-	
-	public static R ok(Map<String, Object> map) {
-		R r = new R();
-		r.putAll(map);
-		return r;
+		return new R(status, msg);
 	}
 	
 	public static R ok() {
@@ -51,9 +46,9 @@ public class R extends HashMap<String, Object> {
 	}
 
 	public static R ok(Object obj) {
-		Map<String, Object> res = new HashMap<>();
-		res.put("data", obj);
-		return R.ok(res);
+		R r = new R();
+		r.put(DATA_KEY, obj);
+		return r;
 	}
 
 	@Override
