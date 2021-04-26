@@ -1,8 +1,6 @@
 package com.kang.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kang.VO.CommentLevelCountsVO;
 import com.kang.VO.ItemCommentVO;
@@ -30,27 +28,25 @@ public class ItemsCommentsServiceImpl extends ServiceImpl<ItemsCommentsMapper, I
         if (!CollectionUtils.isEmpty(itemCommentVOS)) {
             itemCommentVOS.forEach(e -> e.setNickname(DesensitizationUtil.commonDisplay(e.getNickname())));
         }
-        page.setRecords(itemCommentVOS);
-        return new PageUtils(page);
+        return new PageUtils(page, itemCommentVOS);
     }
 
     @Override
     public CommentLevelCountsVO getCommentCntByItemId(String itemId) {
         List<ItemsCommentsEntity> commentsEntityList = this.baseMapper.getCommentCntByItemId(itemId);
-        if (CollectionUtils.isEmpty(commentsEntityList)) {
-            return null;
-        }
         CommentLevelCountsVO res = new CommentLevelCountsVO();
-        for (ItemsCommentsEntity comment : commentsEntityList) {
-            if (CommentLevelEnum.GOOD.getCode().equals(comment.getCommentLevel())) {
-                res.setGoodCounts(Integer.valueOf(comment.getId()));
-            } else if (CommentLevelEnum.BAD.getCode().equals(comment.getCommentLevel())) {
-                res.setBadCounts(Integer.valueOf(comment.getId()));
-            } else if (CommentLevelEnum.NORMAL.getCode().equals(comment.getCommentLevel())) {
-                res.setNormalCounts(Integer.valueOf(comment.getId()));
+        if (!CollectionUtils.isEmpty(commentsEntityList)) {
+            for (ItemsCommentsEntity comment : commentsEntityList) {
+                if (CommentLevelEnum.GOOD.getCode().equals(comment.getCommentLevel())) {
+                    res.setGoodCounts(Integer.valueOf(comment.getId()));
+                } else if (CommentLevelEnum.BAD.getCode().equals(comment.getCommentLevel())) {
+                    res.setBadCounts(Integer.valueOf(comment.getId()));
+                } else if (CommentLevelEnum.NORMAL.getCode().equals(comment.getCommentLevel())) {
+                    res.setNormalCounts(Integer.valueOf(comment.getId()));
+                }
             }
+            res.setTotalCounts(res.getGoodCounts() + res.getNormalCounts() + res.getBadCounts());
         }
-        res.setTotalCounts(res.getGoodCounts() + res.getNormalCounts() + res.getBadCounts());
         return res;
     }
 

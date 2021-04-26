@@ -24,10 +24,10 @@ public class Query<T> {
         long curPage = 1;
         long limit = 10;
 
-        if(params.get(Constant.PAGE) != null){
+        if(params.get(Constant.PAGE) != null && StringUtils.isNotEmpty((String)params.get(Constant.PAGE))){
             curPage = Long.parseLong((String)params.get(Constant.PAGE));
         }
-        if(params.get(Constant.LIMIT) != null){
+        if(params.get(Constant.LIMIT) != null && StringUtils.isNotEmpty((String)params.get(Constant.LIMIT))){
             limit = Long.parseLong((String)params.get(Constant.LIMIT));
         }
 

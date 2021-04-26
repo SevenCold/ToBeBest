@@ -3,7 +3,6 @@ package com.kang.controller;
 import com.kang.VO.CommentLevelCountsVO;
 import com.kang.VO.ItemInfoVO;
 import com.kang.common.annotation.RequestParamRequired;
-import com.kang.common.utils.PageUtils;
 import com.kang.common.utils.R;
 import com.kang.pojo.ItemsEntity;
 import com.kang.pojo.ItemsImgEntity;
@@ -87,6 +86,9 @@ public class ItemsController {
     /**
      * 查询商品评论数量
      * @param itemId 商品id
+     * @param level 评论等级
+     * @param page 页码
+     * @param pageSize 每页评论数量
      * @return 商品详情
      */
     @ApiOperation(value = "查询商品评论", notes = "根据商品id查询商品评论", httpMethod = "GET")
@@ -106,6 +108,73 @@ public class ItemsController {
         queryMap.put("page", page);
         queryMap.put("pageSize", pageSize);
         return R.ok(itemsCommentsService.queryItemComments(queryMap));
+    }
+
+    /**
+     * 根据关键词查询商品
+     * @param keywords 商品关键词
+     * @param sort 排序类别
+     * @param page 页码
+     * @param pageSize 每页数量
+     * @return 商品详情
+     */
+    @ApiOperation(value = "查询商品信息", notes = "根据关键词查询商品信息", httpMethod = "GET")
+    @GetMapping("/search")
+    public R search(
+            @ApiParam(name = "keywords", value = "商品关键词", required = true)
+            @RequestParamRequired @RequestParam String keywords,
+            @ApiParam(name = "sort", value = "排序类别")
+            @RequestParam(required = false) String sort,
+            @ApiParam(name = "page", value = "页码")
+            @RequestParam(required = false) String page,
+            @ApiParam(name = "pageSize", value = "每页数量")
+            @RequestParam(required = false) String pageSize) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("keywords", keywords);
+        queryMap.put("sort", sort);
+        queryMap.put("page", page);
+        queryMap.put("pageSize", pageSize);
+        return R.ok(itemsService.searchItems(queryMap));
+    }
+
+    /**
+     * 根据分类id查询商品
+     * @param catId 分类id
+     * @param sort 排序类别
+     * @param page 页码
+     * @param pageSize 每页数量
+     * @return 商品详情
+     */
+    @ApiOperation(value = "查询分类商品信息", notes = "根据分类id查询商品信息", httpMethod = "GET")
+    @GetMapping("/catItems")
+    public R catItems(
+            @ApiParam(name = "catId", value = "分类id", required = true)
+            @RequestParamRequired @RequestParam String catId,
+            @ApiParam(name = "sort", value = "排序类别")
+            @RequestParam(required = false) String sort,
+            @ApiParam(name = "page", value = "页码")
+            @RequestParam(required = false) String page,
+            @ApiParam(name = "pageSize", value = "每页数量")
+            @RequestParam(required = false) String pageSize) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("catId", catId);
+        queryMap.put("sort", sort);
+        queryMap.put("page", page);
+        queryMap.put("pageSize", pageSize);
+        return R.ok(itemsService.searchItemsByCat(queryMap));
+    }
+
+    /**
+     * 根据规格ids查询商品
+     * @param itemSpecIds 规格ids
+     * @return 商品详情
+     */
+    @ApiOperation(value = "根据规格ids查询商品", notes = "根据规格ids查询商品", httpMethod = "GET")
+    @GetMapping("/refresh")
+    public R refresh(
+            @ApiParam(name = "itemSpecIds", value = "规格ids", required = true, example = "1001,1002,1003")
+            @RequestParamRequired @RequestParam String itemSpecIds) {
+        return R.ok(itemsService.searchItemsBySpecIds(itemSpecIds));
     }
 
 }

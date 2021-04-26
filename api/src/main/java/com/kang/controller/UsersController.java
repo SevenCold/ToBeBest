@@ -39,7 +39,7 @@ public class UsersController {
     /**
      * 用户注册
      * @param userBO 注册信息
-     * @return
+     * @return 注册成功信息
      */
     @ApiOperation(value = "用户注册", httpMethod = "POST", notes = "用户注册接口，包括用户名，密码和确认密码信息")
     @PostMapping("regist")
@@ -60,7 +60,7 @@ public class UsersController {
     /**
      * 根据用户名判断用户是否存在
      * @param username 用户名
-     * @return
+     * @return 是否存在
      */
     @ApiOperation(value = "根据用户名判断用户是否存在", httpMethod = "GET", notes = "根据用户名判断用户是否存在")
     @GetMapping("/usernameIsExist")

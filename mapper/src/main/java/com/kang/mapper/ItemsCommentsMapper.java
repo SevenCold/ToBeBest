@@ -30,9 +30,10 @@ public interface ItemsCommentsMapper extends BaseMapper<ItemsCommentsEntity> {
 
     /**
      * 根据商品id查询商品评论
+     * @param page 分页数据
      * @param map map.itemId 商品id
      *            map.level 商品评论等级 （可能为空）
      * @return 商品评论信息
      */
-    List<ItemCommentVO> queryItemComments(IPage page, @Param("paramsMap") Map<String, Object> map);
+    List<ItemCommentVO> queryItemComments(IPage<ItemCommentVO> page, @Param("paramsMap") Map<String, Object> map);
 }

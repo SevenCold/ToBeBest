@@ -1,30 +1,42 @@
 package com.kang.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kang.VO.SearchItemsVO;
+import com.kang.VO.ShopcartVO;
 import com.kang.common.utils.PageUtils;
 import com.kang.common.utils.Query;
-
 import com.kang.mapper.ItemsMapper;
 import com.kang.pojo.ItemsEntity;
 import com.kang.service.ItemsService;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service("itemsService")
 public class ItemsServiceImpl extends ServiceImpl<ItemsMapper, ItemsEntity> implements ItemsService {
 
     @Override
-    public PageUtils queryItemComments(Map<String, Object> params) {
-        IPage<ItemsEntity> page = this.page(
-                new Query<ItemsEntity>().getPage(params),
-                new QueryWrapper<ItemsEntity>()
-        );
-
-
-        return new PageUtils(page);
+    public PageUtils searchItems(Map<String, Object> map) {
+        IPage<SearchItemsVO> page = new Query<SearchItemsVO>().getPage(map);
+        List<SearchItemsVO> itemsVOS = this.baseMapper.searchItems(page, map);
+        return new PageUtils(page, itemsVOS);
     }
 
+    @Override
+    public PageUtils searchItemsByCat(Map<String, Object> map) {
+        IPage<SearchItemsVO> page = new Query<SearchItemsVO>().getPage(map);
+        List<SearchItemsVO> itemsVOS = this.baseMapper.searchItemsByCat(page, map);
+        return new PageUtils(page, itemsVOS);
+    }
+
+    @Override
+    public List<ShopcartVO> searchItemsBySpecIds(String specIds) {
+        List<String> specIdList = Arrays.stream(
+                specIds.split(","))
+                .collect(Collectors.toList());
+        return this.baseMapper.searchItemsBySpecIds(specIdList);
+    }
 }
