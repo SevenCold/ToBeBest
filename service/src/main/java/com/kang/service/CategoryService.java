@@ -28,6 +28,6 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @param fatherId 一级分类id
      * @return 商品数据
      */
-    public List<NewItemsVO> getSixNewItemsLazy(Integer fatherId);
+    List<NewItemsVO> getSixNewItemsLazy(Integer fatherId);
 }
 

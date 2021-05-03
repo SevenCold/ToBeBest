@@ -5,15 +5,13 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum UserStatusEnum {
+public enum  YesNoEnum {
 
-    NORMAL(0, "正常"),
-    NOT_ENABLED(1, "未启用"),
-    DISABLE(2, "禁用")
+
+    YES(1, "是"),
+    NO(0,"否")
     ;
 
-    private final int value;
-
+    private final Integer code;
     private final String desc;
-
 }

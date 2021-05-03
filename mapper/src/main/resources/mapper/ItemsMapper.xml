@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kang.mapper.ItemsMapper">
+    <update id="decreaseStock">
+        update
+            items_spec
+        set
+            stock = stock - #{count}
+        where
+            id = #{specId}
+          and
+            stock >= #{count}
+    </update>
 
     <select id="searchItems" parameterType="Map" resultType="com.kang.VO.SearchItemsVO">
         SELECT

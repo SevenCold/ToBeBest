@@ -22,7 +22,7 @@ public class ShopController {
     /**
      * 加入购物车
      * @param userId 用户id
-     * @param shopcartBO 购物车商品信息
+     * @param cartBO 购物车商品信息
      * @return 加入成功信息
      */
     @PostMapping("/add")
@@ -30,7 +30,8 @@ public class ShopController {
     public R add(
             @ApiParam(name = "userId", value = "用户ID", required = true)
             @RequestParamRequired @RequestParam String userId,
-            @RequestBody ShopcartBO shopcartBO) {
+            @RequestBody ShopcartBO cartBO) {
+        System.out.println(cartBO);
         return R.ok();
     }
 

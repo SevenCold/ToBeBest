@@ -21,8 +21,7 @@ import java.util.Map;
 
 
 /**
- * 商品表 商品信息相关表：分类表，商品图片表，商品规格表，商品参数表
- *
+ * 商品信息相关controller
  * @author kang
  * @email 784706982@qq.com
  * @date 2021-04-24 10:11:01

@@ -22,8 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 用户表 
- *
+ * 用户和账号管理相关接口
  * @author kang
  * @email 784706982@qq.com
  * @date 2021-04-24 10:11:02

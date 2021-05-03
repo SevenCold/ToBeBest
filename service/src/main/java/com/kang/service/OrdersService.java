@@ -1,10 +1,8 @@
 package com.kang.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kang.common.utils.PageUtils;
+import com.kang.BO.SubmitOrderBO;
 import com.kang.pojo.OrdersEntity;
-
-import java.util.Map;
 
 /**
  * 订单表 
@@ -15,6 +13,10 @@ import java.util.Map;
  */
 public interface OrdersService extends IService<OrdersEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 创建订单
+     * @param orderInfo 订单信息
+     */
+    String createOrder(SubmitOrderBO orderInfo);
 }
 

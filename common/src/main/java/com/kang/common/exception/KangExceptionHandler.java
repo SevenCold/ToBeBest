@@ -11,12 +11,11 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * 异常处理器
- *
  * @author kang
  */
 @RestControllerAdvice
 public class KangExceptionHandler {
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 处理自定义异常

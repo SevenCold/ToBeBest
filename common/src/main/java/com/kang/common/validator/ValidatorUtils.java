@@ -31,11 +31,15 @@ public class ValidatorUtils {
             throws KangException {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
         if (!constraintViolations.isEmpty()) {
-            StringBuilder msg = new StringBuilder();
-            for(ConstraintViolation<Object> constraint:  constraintViolations){
-                msg.append(constraint.getMessage()).append("<br>");
-            }
-            throw new KangException(msg.toString());
+            // 返回全部不符合提示
+//            StringBuilder msg = new StringBuilder();
+//            for(ConstraintViolation<Object> constraint:  constraintViolations){
+//                msg.append(constraint.getMessage()).append("<br>");
+//            }
+//            throw new KangException(msg.toString());
+            //只返回头一个不符合提示
+            ConstraintViolation<Object> first = constraintViolations.iterator().next();
+            throw new KangException(first.getMessage());
         }
     }
 }

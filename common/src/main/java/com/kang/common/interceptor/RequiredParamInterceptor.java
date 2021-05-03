@@ -16,13 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 验证参数是否为空
+ * 验证参数是否为空， 与@RequestParam共同使用
+ * 如果参数isEmpty() 抛出异常，异常信息为 ERROR_PARAM
  */
 @Component
 public class RequiredParamInterceptor extends HandlerInterceptorAdapter {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -38,6 +39,8 @@ public class RequiredParamInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 获取使用了该注解的参数名称
+     * @param handlerMethod 方法
+     * @return 参数数组
      */
     private List<String> getParamsName(HandlerMethod handlerMethod) {
         Parameter[] parameters = handlerMethod.getMethod().getParameters();

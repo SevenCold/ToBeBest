@@ -18,7 +18,7 @@ public interface ItemsCommentsService extends IService<ItemsCommentsEntity> {
 
     /**
      * 根据商品id分页查询商品评论
-     * @param params
+     * @param params 查询条件
      * @return 商品评论信息
      */
     PageUtils queryItemComments(Map<String, Object> params);

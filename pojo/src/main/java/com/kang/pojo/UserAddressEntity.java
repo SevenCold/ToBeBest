@@ -2,10 +2,10 @@ package com.kang.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 用户地址表 
@@ -69,4 +69,11 @@ public class UserAddressEntity implements Serializable {
 	 */
 	private Date updatedTime;
 
+	/**
+	 * 获取具体的收货地址
+	 * @return 收货地址
+	 */
+	public String getAddress() {
+		return this.province + " " + this.city + " " + this.district + " " + this.detail;
+	}
 }

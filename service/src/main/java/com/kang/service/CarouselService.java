@@ -7,8 +7,7 @@ import com.kang.pojo.CarouselEntity;
 import java.util.Map;
 
 /**
- * 轮播图 
- *
+ * 轮播图
  * @author kang
  * @email 784706982@qq.com
  * @date 2021-04-24 10:11:03

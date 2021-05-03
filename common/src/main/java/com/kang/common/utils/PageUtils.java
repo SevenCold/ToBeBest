@@ -1,6 +1,7 @@
 package com.kang.common.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  *
  * @author kang
  */
+@Data
 public class PageUtils implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -65,46 +67,6 @@ public class PageUtils implements Serializable {
 		this.pageSize = (int)page.getSize();
 		this.page = (int)page.getCurrent();
 		this.total = (int)page.getPages();
-	}
-
-	public int getRecords() {
-		return records;
-	}
-
-	public void setRecords(int records) {
-		this.records = records;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public List<?> getRows() {
-		return rows;
-	}
-
-	public void setRows(List<?> rows) {
-		this.rows = rows;
 	}
 	
 }

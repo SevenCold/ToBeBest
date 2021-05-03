@@ -38,5 +38,12 @@ public interface ItemsService extends IService<ItemsEntity> {
      * @return 商品信息
      */
     List<ShopcartVO> searchItemsBySpecIds(String specIds);
+
+    /**
+     * 通过规格id扣减库存
+     * @param specId 规格id
+     * @param count 购买数量
+     */
+    void decreaseStock(String specId, Integer count);
 }
 

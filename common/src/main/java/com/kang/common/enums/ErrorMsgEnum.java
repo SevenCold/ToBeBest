@@ -41,8 +41,8 @@ public enum ErrorMsgEnum {
     // ---------------业务 状态码 END------------------------
     ;
 
-    private int status;
-    private String msg;
+    private final int status;
+    private final String msg;
 
     ErrorMsgEnum(int status, String msg) {
         this.status = status;
@@ -51,10 +51,6 @@ public enum ErrorMsgEnum {
 
     public String getMsg() {
         return msg;
-    }
-
-    public String getDetailMsg(String detail) {
-        return msg + "详细信息为：" + detail;
     }
 
     public int getStatus() {

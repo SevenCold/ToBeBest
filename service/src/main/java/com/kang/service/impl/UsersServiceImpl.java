@@ -1,24 +1,22 @@
 package com.kang.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kang.BO.UserBO;
 import com.kang.common.enums.SexTypeEnum;
 import com.kang.common.org.n3r.idworker.Sid;
 import com.kang.common.utils.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import com.kang.mapper.UsersMapper;
 import com.kang.pojo.UsersEntity;
 import com.kang.service.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
+
+import java.util.Date;
+import java.util.Map;
 
 
 @Service("usersService")
@@ -31,7 +29,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, UsersEntity> impl
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<UsersEntity> page = this.page(
                 new Query<UsersEntity>().getPage(params),
-                new QueryWrapper<UsersEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);

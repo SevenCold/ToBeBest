@@ -1,6 +1,7 @@
 package com.kang.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kang.BO.AddressBO;
 import com.kang.common.utils.PageUtils;
 import com.kang.pojo.UserAddressEntity;
 
@@ -16,5 +17,11 @@ import java.util.Map;
 public interface UserAddressService extends IService<UserAddressEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void addNewAddress(AddressBO addressInfo);
+
+    void updateAddress(AddressBO addressInfo);
+
+    void setDefalutAddress(String userId, String addressId);
 }
 
