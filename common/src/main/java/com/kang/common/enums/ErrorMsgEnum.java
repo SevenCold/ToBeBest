@@ -36,6 +36,12 @@ public enum ErrorMsgEnum {
     USER_EXIST(500,"用户已注册"),
     EMPTY_NAME(500,"用户名不能为空"),
     ERROR_LOGIN(500,"用户名或密码错误"),
+    FILE_EMPTY(40105, "上传文件不能为空"),
+    ERROR_JPG(40106, "图片文件格式错误"),
+    ERROR_FILE(40107, "图片文件格式错误"),
+    FILE_UPLOAD_ERROR(40108, "文件上传失败"),
+    TIME_PATTERN_ERROR(40109, "时间格式错误"),
+    ORDER_NOT_EXIST(500, "订单不存在"),
     // ---------------数据库相关-----------------------------
     DUP_KEY(60100, "数据库中已存在该记录")
     // ---------------业务 状态码 END------------------------
@@ -51,6 +57,10 @@ public enum ErrorMsgEnum {
 
     public String getMsg() {
         return msg;
+    }
+
+    public String getDetailMsg(String detail) {
+        return msg + "详细信息为：" + detail;
     }
 
     public int getStatus() {

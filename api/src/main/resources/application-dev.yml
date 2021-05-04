@@ -1,0 +1,4 @@
+center:
+  image:
+    face: best
+  domain: http://localhost:8080/
