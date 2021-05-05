@@ -7,3 +7,6 @@ center:
   image:
     face: best
   domain: http://localhost:8080/
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
