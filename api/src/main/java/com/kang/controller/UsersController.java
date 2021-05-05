@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * @email 784706982@qq.com
  * @date 2021-04-24 10:11:02
  */
-@Api(value = "用户和账号管理", tags = "用户和账号管理相关接口")
+@Api(value = "用户和账号管理", tags = "SHOP-用户相关接口")
 @RestController
 @RequestMapping("passport")
 public class UsersController {

@@ -2,21 +2,21 @@ package com.kang.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kang.BO.SubmitOrderBO;
+import com.kang.BO.center.OrderItemsCommentBO;
 import com.kang.VO.ShopcartVO;
 import com.kang.common.enums.OrderStatusEnum;
 import com.kang.common.enums.YesNoEnum;
 import com.kang.common.exception.KangException;
 import com.kang.common.org.n3r.idworker.Sid;
 import com.kang.mapper.OrdersMapper;
-import com.kang.pojo.OrderItemsEntity;
-import com.kang.pojo.OrderStatusEntity;
-import com.kang.pojo.OrdersEntity;
-import com.kang.pojo.UserAddressEntity;
+import com.kang.pojo.*;
 import com.kang.service.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +39,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, OrdersEntity> i
 
     @Autowired
     private OrderStatusService orderStatusService;
+
+    @Autowired
+    private ItemsCommentsService commentsService;
 
     @Override
     public String createOrder(SubmitOrderBO orderInfo) {
@@ -73,6 +76,36 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, OrdersEntity> i
         OrderStatusEntity orderStatus = getOrderStatus(orderId);
         orderStatusService.save(orderStatus);
         return orderId;
+    }
+
+    @Override
+    public OrdersEntity getOrderByUserId(String orderId, String userId) {
+        return this.lambdaQuery()
+                .eq(OrdersEntity::getId, orderId)
+                .eq(OrdersEntity::getUserId, userId)
+                .eq(OrdersEntity::getIsDelete, YesNoEnum.NO.getCode())
+                .one();
+    }
+
+    @Override
+    public void saveComment(String orderId, String userId, List<OrderItemsCommentBO> boList) {
+        Date now = new Date();
+        // 1.插入items_comments表
+        List<ItemsCommentsEntity> itemsCommentList = getItemsCommentList(userId, boList, now);
+        commentsService.saveBatch(itemsCommentList);
+        // 2.修改orders表
+        this.lambdaUpdate()
+                .set(OrdersEntity::getIsComment, YesNoEnum.YES.getCode())
+                .set(OrdersEntity::getUpdatedTime, now)
+                .eq(OrdersEntity::getId, orderId)
+                .eq(OrdersEntity::getIsComment, YesNoEnum.NO.getCode())
+                .eq(OrdersEntity::getUserId, userId)
+                .update();
+        // 3.修改order_status表
+        orderStatusService.lambdaUpdate()
+                .set(OrderStatusEntity::getCommentTime, now)
+                .eq(OrderStatusEntity::getOrderId, orderId)
+                .update();
     }
 
     private int getBuyCountFromRedis(String itemSpecId) {
@@ -138,5 +171,28 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, OrdersEntity> i
         statusEntity.setOrderStatus(OrderStatusEnum.WAIT_PAY.getValue());
         statusEntity.setCreatedTime(new Date());
         return statusEntity;
+    }
+
+    /**
+     * 将bo转成entity
+     * @param userId 用户id
+     * @param boList 源list
+     * @param now 当前时间
+     * @return 目标list
+     */
+    private List<ItemsCommentsEntity> getItemsCommentList(
+            String userId, List<OrderItemsCommentBO> boList, Date now) {
+        List<ItemsCommentsEntity> commentList = new ArrayList<>(boList.size());
+        for (OrderItemsCommentBO commentBO : boList) {
+            ItemsCommentsEntity entity = new ItemsCommentsEntity();
+            BeanUtils.copyProperties(commentBO, entity);
+            entity.setId(sid.nextShort());
+            entity.setUserId(userId);
+            entity.setSepcName(commentBO.getItemSpecName());
+            entity.setCreatedTime(now);
+            entity.setUpdatedTime(now);
+            commentList.add(entity);
+        }
+        return commentList;
     }
 }

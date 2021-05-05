@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @email 784706982@qq.com
  * @date 2021-05-04 11:36:02
  */
-@Api(value = "个人中心", tags = "个人中心接口")
+@Api(value = "个人中心", tags = "CENTER-个人中心接口")
 @RestController
 @RequestMapping("center")
 public class CenterController {

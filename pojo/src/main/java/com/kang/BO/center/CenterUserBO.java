@@ -12,11 +12,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
-/**
+/** 个人中心用户bo
  * @author kang
  */
 @Data
-@ApiModel(value="用户对象", description="从客户端，由用户传入的数据封装在此entity中")
+@ApiModel(value="用户对象", description="个人中心用户bo")
 public class CenterUserBO {
 
     @ApiModelProperty(value="用户名", name="username", example="张三")

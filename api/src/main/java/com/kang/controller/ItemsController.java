@@ -26,7 +26,7 @@ import java.util.Map;
  * @email 784706982@qq.com
  * @date 2021-04-24 10:11:01
  */
-@Api(value = "商品信息", tags = "商品信息相关接口")
+@Api(value = "商品信息", tags = "SHOP-商品信息相关接口")
 @RestController
 @RequestMapping("items")
 public class ItemsController {

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @email 784706982@qq.com
  * @date 2021-04-24 10:11:03
  */
-@Api(value = "首页相关", tags = "首页相关接口")
+@Api(value = "首页相关", tags = "SHOP-首页相关接口")
 @RestController
 @RequestMapping("index")
 public class IndexController {

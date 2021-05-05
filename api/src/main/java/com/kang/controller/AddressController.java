@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021-04-24 10:10:59
  */
 @RestController
-@Api(value = "地址相关", tags = {"地址相关接口"})
+@Api(value = "地址相关", tags = {"SHOP-地址相关接口"})
 @RequestMapping("address")
 public class AddressController {
 

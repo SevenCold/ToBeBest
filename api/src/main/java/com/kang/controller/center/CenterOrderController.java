@@ -26,7 +26,7 @@ import java.util.Map;
  * @email 784706982@qq.com
  * @date 2021-05-04 16:31:02
  */
-@Api(value = "订单管理", tags = "订单管理接口")
+@Api(value = "订单管理", tags = "CENTER-订单管理接口")
 @RestController
 @RequestMapping("myorders")
 public class CenterOrderController {
@@ -43,6 +43,9 @@ public class CenterOrderController {
     /**
      * 根据用户id查询订单信息
      * @param userId 用户id
+     * @param orderStatus 订单状态
+     * @param page 页码
+     * @param pageSize 每页数量
      * @return 用户信息
      */
     @PostMapping("/query")
@@ -96,7 +99,7 @@ public class CenterOrderController {
             @ApiParam(name = "userId", value = "用户id", required = true)
             @RequestParamRequired @RequestParam String userId) {
         // 判断用户id和订单id是否匹配
-        OrdersEntity existedOrder = getOrderByUserId(orderId, userId);
+        OrdersEntity existedOrder = ordersService.getOrderByUserId(orderId, userId);
         if (existedOrder == null) {
             return ErrorMsgEnum.ORDER_NOT_EXIST.getR();
         }
@@ -122,7 +125,7 @@ public class CenterOrderController {
             @ApiParam(name = "userId", value = "用户id", required = true)
             @RequestParamRequired @RequestParam String userId) {
         // 判断用户id和订单id是否匹配
-        OrdersEntity existedOrder = getOrderByUserId(orderId, userId);
+        OrdersEntity existedOrder = ordersService.getOrderByUserId(orderId, userId);
         if (existedOrder == null) {
             return ErrorMsgEnum.ORDER_NOT_EXIST.getR();
         }
@@ -135,11 +138,38 @@ public class CenterOrderController {
         return R.ok();
     }
 
-    private OrdersEntity getOrderByUserId(String orderId, String userId) {
-        return ordersService.lambdaQuery()
-                .eq(OrdersEntity::getId, orderId)
-                .eq(OrdersEntity::getUserId, userId)
-                .eq(OrdersEntity::getIsDelete, YesNoEnum.NO.getCode())
-                .one();
+    /**
+     * 获得不同状态订单数量
+     * @param userId 用户id
+     * @return 订单数量
+     */
+    @ApiOperation(value = "获得订单数量", notes = "获得不同状态订单数量", httpMethod = "POST")
+    @PostMapping("/statusCounts")
+    public R statusCounts(
+            @ApiParam(name = "userId", value = "用户id", required = true)
+            @RequestParamRequired @RequestParam String userId) {
+       return R.ok(centerOrdersService.getOrderCount(userId));
+    }
+
+    /**
+     * 根据用户id查询订单流向信息
+     * @param userId 用户id
+     * @param page 页码
+     * @param pageSize 每页数量
+     * @return 订单流向信息
+     */
+    @PostMapping("/trend")
+    @ApiOperation(value = "查询订单流向", httpMethod = "POST", notes = "根据用户id查询订单流向信息")
+    public R trend(
+            @ApiParam(name = "userId", value = "用户ID", required = true)
+            @RequestParamRequired @RequestParam String userId,
+            @ApiParam(name = "page", value = "页码")
+            @RequestParam(required = false) String page,
+            @ApiParam(name = "pageSize", value = "每页数量")
+            @RequestParam(required = false) String pageSize) {
+        Map<String, Object> paramsMap = PageMap.getInstance(page, pageSize)
+                .put("userId", userId)
+                .getParamsMap();
+        return R.ok(centerOrdersService.getOrderTrend(paramsMap));
     }
 }

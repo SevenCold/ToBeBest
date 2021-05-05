@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("orders")
-@Api(value = "订单相关", tags = {"订单相关接口"})
+@Api(value = "订单相关", tags = {"SHOP-订单相关接口"})
 public class OrdersController {
     @Autowired
     private OrdersService ordersService;

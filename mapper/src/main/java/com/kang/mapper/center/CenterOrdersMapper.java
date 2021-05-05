@@ -3,6 +3,7 @@ package com.kang.mapper.center;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kang.VO.center.CenterOrdersVO;
+import com.kang.pojo.OrderStatusEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +26,18 @@ public interface CenterOrdersMapper extends BaseMapper<CenterOrdersVO> {
      * @return 订单信息
      */
     List<CenterOrdersVO> queryMyOrders(IPage<CenterOrdersVO> page, @Param("paramsMap") Map<String, Object> map);
+
+    /**
+     * 通过订单状态和userId获取订单个数
+     * @param map 查询条件
+     * @return 订单个数
+     */
+    int getOrdersCountByStatus(@Param("paramsMap") Map<String, Object> map);
+
+    /**
+     * 通过userId查询订单状态信息
+     * @param map 查询条件
+     * @return 订单状态信息
+     */
+    List<OrderStatusEntity> getOrderTrend(IPage<OrderStatusEntity> page, @Param("paramsMap") Map<String, Object> map);
 }

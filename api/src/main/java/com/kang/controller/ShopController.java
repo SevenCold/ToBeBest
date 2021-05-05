@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @email 784706982@qq.com
  * @date 2021-04-24 10:11:03
  */
-@Api(value = "购物车相关", tags = "购物车相关接口")
+@Api(value = "购物车相关", tags = "SHOP-购物车相关接口")
 @RestController
 @RequestMapping("shopcart")
 public class ShopController {

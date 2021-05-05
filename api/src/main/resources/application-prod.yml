@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://49.232.200.130:3306/best?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+    username: root
+    password: Fis6mtnCCMY2AE6Z
+center:
+  image:
+    face: best
+  domain: http://localhost:8080/

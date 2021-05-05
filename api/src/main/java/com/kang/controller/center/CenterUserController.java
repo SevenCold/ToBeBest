@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * @email 784706982@qq.com
  * @date 2021-05-04 11:36:02
  */
-@Api(value = "用户相关接口", tags = "个人中心用户相关接口")
+@Api(value = "用户相关接口", tags = "CENTER-我的信息接口")
 @RestController
 @RequestMapping("userInfo")
 public class CenterUserController {
